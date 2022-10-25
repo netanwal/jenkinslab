@@ -1,40 +1,26 @@
-FROM node:alpine:latest as install
-WORKDIR /install
-COPY package.json /install/
-RUN npm install --quiet
+FROM alpine:latest as pre-build
+COPY ./helloworld.txt ./code/helloworld.txt
+RUN echo "this is a PRE-BUILD phase"
 
-FROM node:alpine:latest as compile
-WORKDIR /build
-COPY tsconfig.json index.ts /build/
-COPY --from=install /install/node_modules /build/node_modules
-RUN node_modules/typescript/bin/tsc
+FROM alpine:latest as build
+COPY --from=pre-build ./code/helloworld.txt ./build/helloworld.txt
+RUN echo "this is a build phase"
 
-FROM node:alpine:latest as source
-WORKDIR /app
-COPY --from=compile /build/index.js /app/index.js
-COPY package.json /app
-RUN npm install --production --quiet
+FROM alpine:latest as test
+COPY --from=build ./build/helloworld.txt ./test/helloworld.txt
+RUN echo "this is a test phase"
 
-FROM node:alpine:latest as dev
-WORKDIR /app
-COPY --from=source /app/index.js .
-COPY --from=source /app/node_modules node_modules
-VOLUME [ "/watch" ]
-ENTRYPOINT [ "node" ]
-CMD ["index.js"]
+FROM alpine:latest as security
+RUN echo "this is a security phase"
 
-FROM node:alpine:latest as prod
-WORKDIR /app
-COPY --from=source /app/index.js .
-COPY --from=source /app/node_modules node_modules
-RUN mkdir /watch
-ENTRYPOINT [ "node" ]
-CMD ["index.js"]
+FROM alpine:latest as back-end
+RUN echo "this is a back-end phase"
 
-FROM node:alpine:latest as copyless
-WORKDIR /app
-COPY  /app/index.js .
-COPY /app/node_modules node_modules
-RUN mkdir /watch
-ENTRYPOINT [ "node" ]
-CMD ["index.js"]
+FROM alpine:latest as front-end
+RUN echo "this is a front-end phase"
+
+FROM alpine:latest as deploy
+RUN echo "some deployment - sh s3 cp src dst"
+
+FROM alpine:latest as post
+RUN echo "clear environment"
