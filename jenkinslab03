@@ -1,0 +1,46 @@
+pipeline {
+   agent any
+ 
+   stages {
+       stage('Pre-build stg') {
+           steps {
+               echo 'Prebuild actions..'
+           }
+       }
+       stage('install') {
+           steps {
+             sh 'echo "docker build --target install"'
+           }
+       }
+       stage('compile') {
+           steps {
+               sh 'echo "docker build --target compile"'
+           }
+       }
+       stage('dev') {
+           steps {
+               sh 'echo "docker build --target dev""'
+           }
+       }
+       stage('prod') {
+           steps {
+               sh 'echo "docker build --target prod""'
+           }
+       }
+       stage('copyless') {
+           steps {
+               sh 'DOCKER_BUILDKIT=1 docker build --target copyless'
+           }
+       }
+       stage('Deploy') {
+           steps {
+               sh 'echo "docker build --target deploy"'
+           }
+       }
+       stage('Post') {
+           steps {
+               echo "Clear env"
+           }
+       }
+   }
+}
