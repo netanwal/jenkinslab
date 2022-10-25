@@ -4,42 +4,42 @@ pipeline {
     stages {
         stage('Pre-build stg') {
             steps {
-                sh 'DOCKER_BUILDKIT=1 docker build -t BUILDKIT:latest --target pre-build .'
+                sh 'DOCKER_BUILDKIT=1 docker build -t buildkit:latest --target pre-build .'
             }
         }
         stage('build') {
             steps {
-                sh 'DOCKER_BUILDKIT=1 docker build -t BUILDKIT:latest --target build .'
+                sh 'DOCKER_BUILDKIT=1 docker build -t buildkit:latest --target build .'
             }
         }
         stage('test') {
             steps {
-                sh 'DOCKER_BUILDKIT=1 docker build -t BUILDKIT:latest --target test .'
+                sh 'DOCKER_BUILDKIT=1 docker build -t buildkit:latest --target test .'
             }
         }
         stage('security') {
             steps {
-                sh 'DOCKER_BUILDKIT=1 docker build -t BUILDKIT:latest --target security .'
+                sh 'DOCKER_BUILDKIT=1 docker build -t buildkit:latest --target security .'
             }
         }
         stage('backend') {
             steps {
-                sh 'DOCKER_BUILDKIT=1 docker build -t BUILDKIT:latest --target back-end .'
+                sh 'DOCKER_BUILDKIT=1 docker build -t buildkit:latest --target back-end .'
             }
         }
         stage('front-end') {
             steps {
-                sh 'DOCKER_BUILDKIT=1 docker build -t BUILDKIT:latest --target front-end .'
+                sh 'DOCKER_BUILDKIT=1 docker build -t buildkit:latest --target front-end .'
             }
         }
         stage('deploy') {
             steps {
-                sh 'DOCKER_BUILDKIT=1 docker build -t BUILDKIT:latest --target deploy .'
+                sh 'DOCKER_BUILDKIT=1 docker build -t buildkit:latest --target deploy .'
             }
         }
         stage('post') {
             steps {
-                sh 'DOCKER_BUILDKIT=1 docker build -t BUILDKIT:latest --target post .'
+                sh 'DOCKER_BUILDKIT=1 docker build -t buildkit:latest --target post .'
             }
         }
     }
