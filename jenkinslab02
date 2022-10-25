@@ -7,24 +7,24 @@ pipeline {
                echo 'Prebuild actions..'
            }
        }
-       stage('Build') {
+       stage('install') {
            steps {
-             sh 'echo "docker build --target Build"'
+             sh 'echo "docker build --target install"'
            }
        }
-       stage('Test') {
+       stage('compile') {
            steps {
-               sh 'echo "docker build --target test"'
+               sh 'echo "docker build --target compile"'
            }
        }
-       stage('Security') {
+       stage('dev') {
            steps {
-               sh 'echo "docker build --target security""'
+               sh 'echo "docker build --target dev""'
            }
        }
-       stage('Back-end') {
+       stage('prod') {
            steps {
-               sh 'echo "docker build --target backend""'
+               sh 'echo "docker build --target prod""'
            }
        }
        stage('Front-end') {
