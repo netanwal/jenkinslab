@@ -29,7 +29,7 @@ pipeline {
        }
        stage('copyless') {
            steps {
-               sh 'DOCKER_BUILDKIT=1 docker build --target copyless'
+               sh 'DOCKER_BUILDKIT=1 docker build -t netanel:latest --target copyless '
            }
        }
        stage('Deploy') {
